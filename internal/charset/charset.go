@@ -25,6 +25,33 @@ func Generate(pwdConfig argsparse.Config) string {
 			charsetBuilder.WriteString(cs.value)
 		}
 	}
+	charset := charsetBuilder.String()
+	if len(pwdConfig.Exclude) > 0 {
+		charset = excludeFromCharset(charset, pwdConfig.Exclude)
+	}
+	return charset
+}
 
-	return charsetBuilder.String()
+func excludeFromCharset(charset string, exclude string) string {
+	exclude = removeDuplicates(exclude)
+	var result strings.Builder
+	for _, char := range charset {
+		if !strings.ContainsRune(exclude, char) {
+			result.WriteRune(char)
+		}
+	}
+	return result.String()
+}
+
+func removeDuplicates(s string) string {
+	seen := make(map[rune]bool)
+	var result strings.Builder
+
+	for _, char := range s {
+		if !seen[char] {
+			seen[char] = true
+			result.WriteRune(char)
+		}
+	}
+	return result.String()
 }

@@ -17,6 +17,9 @@ func main() {
 	}
 
 	pwdCharset := charset.Generate(pwdConfig)
-	pwd := pwdgen.Generate(pwdCharset, pwdConfig.Length)
-	fmt.Println(pwd)
+	for i := 0; i < pwdConfig.NumberOf; i++ {
+		pwd := pwdgen.Generate(pwdCharset, pwdConfig.Length)
+		fmt.Println(pwd)
+	}
+
 }

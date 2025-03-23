@@ -9,10 +9,12 @@ import (
 
 type Config struct {
 	Length         int
+	NumberOf       int
 	HasLower       bool
 	HasUpper       bool
 	HasDigit       bool
 	HasPunctuation bool
+	Exclude        string
 }
 
 func Parse() (Config, error) {
@@ -20,6 +22,9 @@ func Parse() (Config, error) {
 
 	flag.IntVar(&pwdConfig.Length, "size", config.DEFAULT_LENGTH, "Size of the password")
 	flag.IntVar(&pwdConfig.Length, "s", config.DEFAULT_LENGTH, "Alias for len")
+
+	flag.IntVar(&pwdConfig.NumberOf, "num", config.DEFAULT_NUMBEROF, "Number of password")
+	flag.IntVar(&pwdConfig.NumberOf, "n", pwdConfig.NumberOf, "Alias for num")
 
 	flag.BoolVar(&pwdConfig.HasLower, "lower", config.DEFAULT_LOWER, "Has lowercase ?")
 	flag.BoolVar(&pwdConfig.HasLower, "l", config.DEFAULT_LOWER, "Alias for lowercase")
@@ -32,6 +37,9 @@ func Parse() (Config, error) {
 
 	flag.BoolVar(&pwdConfig.HasPunctuation, "punctuation", config.DEFAULT_PUNCTUATION, "Has punctuation ?")
 	flag.BoolVar(&pwdConfig.HasPunctuation, "p", config.DEFAULT_PUNCTUATION, "Alias for special characters")
+
+	flag.StringVar(&pwdConfig.Exclude, "exclude", "", "Characters to exclude")
+	flag.StringVar(&pwdConfig.Exclude, "e", "", "Alias for exclude")
 
 	flag.Parse()
 
