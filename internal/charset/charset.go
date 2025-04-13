@@ -2,12 +2,13 @@ package charset
 
 import (
 	"strings"
+    "errors"
 
 	"github.com/R4yL-dev/gogopwd/internal/argsparse"
 	"github.com/R4yL-dev/gogopwd/internal/config"
 )
 
-func Generate(pwdConfig argsparse.Config) string {
+func Generate(pwdConfig argsparse.Config) (string, error) {
 	charsets := []struct {
 		condition bool
 		value     string
@@ -29,7 +30,11 @@ func Generate(pwdConfig argsparse.Config) string {
 	if len(pwdConfig.Exclude) > 0 {
 		charset = excludeFromCharset(charset, pwdConfig.Exclude)
 	}
-	return charset
+
+    if len(charset) <= 0 {
+        return "", errors.New("charset is empty")
+    }
+	return charset, nil
 }
 
 func excludeFromCharset(charset string, exclude string) string {
